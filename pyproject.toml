@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "speedmeter"
+description = "Console tool that measures download speed with sequential HTTP requests"
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["version"]
+# No runtime dependencies on purpose: nothing third-party is pulled into a
+# tool whose job is to open TLS connections.
+dependencies = []
+
+[project.optional-dependencies]
+# Only needed where the interpreter ships without a usable CA bundle.
+certs = ["certifi"]
+
+[project.scripts]
+speedmeter = "speedmeter.cli:main"
+
+[tool.setuptools]
+packages = ["speedmeter"]
+
+[tool.setuptools.dynamic]
+version = { attr = "speedmeter.__version__" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 95
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
